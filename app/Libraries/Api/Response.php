@@ -2,8 +2,6 @@
 
 namespace App\Libraries\Api;
 
-use Illuminate\Contracts\Routing\ResponseFactory;
-
 class Response
 {
     /**
@@ -43,7 +41,7 @@ class Response
 
     /**
      * Return all data in HTTP JSON format.
-     * @return ResponseFactory|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function toJson()
     {
