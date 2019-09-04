@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Libraries\Api\Response;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -46,6 +47,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        // Display exception info if in debug mode.
+        $data = env('APP_DEBUG', false) == true ? $exception : null;
+
+        return (new Response(-1, 'Error', $data, 500))->toJson();
     }
 }

@@ -3,19 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CredentialRequest;
+use App\Libraries\Api\Response;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     /**
      * @param CredentialRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return mixed
+     * @throws \Exception
      */
     public function register(CredentialRequest $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['email', 'name', 'password']);
 
-        $user = User::create($credentials);
+        try {
+            $user = User::create($credentials);
+        } catch (\Exception $e) {
+            if ($e->getCode() == 23000) {
+                return (new Response(-1, "({$credentials['email']}) already exists.", null))->toJson();
+            }
+            throw $e;
+        }
 
         $token = auth()->login($user);
 
@@ -24,7 +34,7 @@ class AuthController extends Controller
 
     /**
      * @param CredentialRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function login(CredentialRequest $request)
     {
@@ -38,7 +48,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout()
     {
@@ -49,14 +59,14 @@ class AuthController extends Controller
 
     /**
      * @param $token
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondWithToken($token)
     {
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60
+            'expires_in'   => auth()->factory()->getTTL() * config('auth.passwords.users.expire', 60),
         ]);
     }
 }
