@@ -21,7 +21,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/register', 'AuthController@register');
     });
 
-    Route::group(['prefix' => 'admins', 'namespace' => 'Admin', 'middleware' => 'isAdmin'], function () {
+    Route::group(['prefix' => 'admins', 'namespace' => 'Admin', 'middleware' => ['apiAuth', 'isAdmin']], function () {
         // User management routes
         Route::post('/users', 'UserController@create');
         Route::get('/users', 'UserController@index');

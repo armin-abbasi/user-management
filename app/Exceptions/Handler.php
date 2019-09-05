@@ -65,11 +65,20 @@ class Handler extends ExceptionHandler
     private function getInfo(Exception $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
+
             $status = 404;
             $message = trans('messages.errors.not_found');
+
+        } elseif ($exception instanceof UnAuthenticatedUser) {
+
+            $status = 401;
+            $message = $exception->getMessage();
+
         } else {
+
             $status = 500;
             $message = trans('messages.errors.general');
+
         }
 
         return [
