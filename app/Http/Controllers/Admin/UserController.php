@@ -24,6 +24,16 @@ class UserController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $users = $this->service->getAll();
+
+        return (new Response(0, trans('messages.users.get'), $users))->toJson();
+    }
+
+    /**
      * @param CreateUserRequest $request
      * @return \Illuminate\Http\Response
      */

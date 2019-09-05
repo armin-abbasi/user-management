@@ -11,6 +11,14 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 class Groups
 {
     /**
+     * @return mixed
+     */
+    public function getAll()
+    {
+        return Group::paginate(5);
+    }
+
+    /**
      * @param $input
      * @return mixed
      */

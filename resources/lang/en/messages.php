@@ -5,6 +5,7 @@ return [
     'users' => [
         'created' => 'User created successfully!',
         'deleted' => 'User deleted successfully!',
+        'get' => 'Users retrieved successfully!',
         'exists' => 'User {email} already exists!',
         'not_found' => 'User does not exists',
         'not_authenticated' => 'You are not authenticated.',
@@ -12,6 +13,7 @@ return [
     'groups' => [
         'created' => 'Group created successfully!',
         'deleted' => 'Group deleted successfully!',
+        'get' => 'Groups retrieved successfully!',
         'not_found' => 'Group does not exists',
         'not_empty' => 'Group is not empty',
     ],

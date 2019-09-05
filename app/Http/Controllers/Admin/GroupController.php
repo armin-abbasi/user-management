@@ -15,9 +15,23 @@ class GroupController extends Controller
      */
     public $service;
 
+    /**
+     * GroupController constructor.
+     * @param Groups $groupsService
+     */
     public function __construct(Groups $groupsService)
     {
         $this->service = $groupsService;
+    }
+
+    /**
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $groups = $this->service->getAll();
+
+        return (new Response(0, trans('messages.groups.get'), $groups))->toJson();
     }
 
     /**

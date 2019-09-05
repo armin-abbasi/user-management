@@ -10,6 +10,14 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 class Users
 {
     /**
+     * @return mixed
+     */
+    public function getAll()
+    {
+        return User::paginate(5);
+    }
+
+    /**
      * @param $input
      * @return mixed
      */
