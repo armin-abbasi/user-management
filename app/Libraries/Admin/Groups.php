@@ -5,7 +5,9 @@ namespace App\Libraries\Admin;
 
 
 use App\Exceptions\GroupIsNotEmptyException;
+use App\Exceptions\UserAlreadyAttachedException;
 use App\Models\Group;
+use App\Models\User;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class Groups
@@ -45,5 +47,30 @@ class Groups
         }
 
         throw new NotFoundResourceException(trans('messages.groups.not_found'));
+    }
+
+    /**
+     * @param $id
+     * @param $userId
+     * @return mixed
+     * @throws UserAlreadyAttachedException|NotFoundResourceException
+     */
+    public function attach($id, $userId)
+    {
+        $group = Group::find($id);
+
+        if (! $group) {
+            throw new NotFoundResourceException(trans('messages.groups.not_found'));
+        }
+
+        if (! User::find($userId)) {
+            throw new NotFoundResourceException(trans('messages.users.not_found'));
+        }
+
+        if ($group->users()->where('user_id', $userId)->first()) {
+            throw new UserAlreadyAttachedException(trans('messages.groups.already_attached'));
+        }
+
+        return $group->users()->attach($userId);
     }
 }

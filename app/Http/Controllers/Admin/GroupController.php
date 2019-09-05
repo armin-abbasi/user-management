@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\GroupIsNotEmptyException;
+use App\Exceptions\UserAlreadyAttachedException;
 use App\Http\Requests\CreateGroupRequest;
 use App\Libraries\Admin\Groups;
 use App\Http\Controllers\Controller;
@@ -60,5 +61,21 @@ class GroupController extends Controller
         }
 
         return (new Response(0, trans('messages.groups.deleted'), null))->toJson();
+    }
+
+    /**
+     * @param $id
+     * @param $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function attach($id, $userId)
+    {
+        try {
+            $result = $this->service->attach($id, $userId);
+        } catch (UserAlreadyAttachedException $e) {
+            return (new Response(-4, $e->getMessage(), null))->toJson();
+        }
+
+        return (new Response(0, trans('messages.groups.attached'), $result))->toJson();
     }
 }
