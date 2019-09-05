@@ -6,6 +6,7 @@ use App\Libraries\Api\Response;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class Handler extends ExceptionHandler
 {
@@ -66,20 +67,20 @@ class Handler extends ExceptionHandler
     private function getInfo(Exception $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
-
             $status = 404;
             $message = trans('messages.errors.not_found');
-
         } elseif ($exception instanceof UnAuthenticatedUser) {
-
             $status = 401;
             $message = $exception->getMessage();
-
+        } elseif ($exception->getCode() == 23000) {
+            $status = 400;
+            $message = trans('messages.errors.resource_exists');
+        } elseif ($exception instanceof NotFoundResourceException) {
+            $status = 404;
+            $message = $exception->getMessage();
         } else {
-
             $status = 500;
             $message = trans('messages.errors.general');
-
         }
 
         return [

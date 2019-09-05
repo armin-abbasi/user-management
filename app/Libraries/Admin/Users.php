@@ -5,6 +5,7 @@ namespace App\Libraries\Admin;
 
 
 use App\Models\User;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class Users
 {
@@ -15,5 +16,18 @@ class Users
     public function create($input)
     {
         return User::create($input);
+    }
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public function delete($id)
+    {
+        if ($result = User::destroy($id)) {
+            return $result;
+        }
+
+        throw new NotFoundResourceException(trans('messages.users.not_found'));
     }
 }

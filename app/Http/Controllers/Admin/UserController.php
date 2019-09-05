@@ -24,7 +24,7 @@ class UserController extends Controller
 
     /**
      * @param CreateUserRequest $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create(CreateUserRequest $request)
     {
@@ -32,6 +32,17 @@ class UserController extends Controller
 
         $user = $this->service->create($inputs);
 
-        return (new Response(0, trans('messages.users.created'), $user));
+        return (new Response(0, trans('messages.users.created'), $user))->toJson();
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $this->service->delete($id);
+
+        return (new Response(0, trans('messages.users.deleted'), null))->toJson();
     }
 }
