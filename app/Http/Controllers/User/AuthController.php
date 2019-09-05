@@ -23,7 +23,7 @@ class AuthController extends Controller
             $user = User::create($credentials);
         } catch (\Exception $e) {
             if ($e->getCode() == 23000) {
-                return (new Response(-1, "({$credentials['email']}) already exists.", null))->toJson();
+                return (new Response(-1, trans('messages.users.exists', $credentials['email']), null))->toJson();
             }
             throw $e;
         }
@@ -42,7 +42,7 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Failed to authenticate.'], 401);
+            return response()->json(['error' => trans('messages.errors.auth')], 401);
         }
 
         return $this->respondWithToken($token);

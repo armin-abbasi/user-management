@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Libraries\Api\Response;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -30,7 +31,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -41,8 +42,8 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
@@ -50,6 +51,30 @@ class Handler extends ExceptionHandler
         // Display exception info if in debug mode.
         $data = env('APP_DEBUG', false) == true ? $exception : null;
 
-        return (new Response(-1, 'Error', $data, 500))->toJson();
+        $errorInfo = $this->getInfo($exception);
+
+        return (new Response(-1, $errorInfo['message'], $data, $errorInfo['status']))->toJson();
+    }
+
+    /**
+     * Return distinguished error message and status codes.
+     *
+     * @param Exception $exception
+     * @return array
+     */
+    private function getInfo(Exception $exception)
+    {
+        if ($exception instanceof NotFoundHttpException) {
+            $status = 404;
+            $message = trans('messages.errors.not_found');
+        } else {
+            $status = 500;
+            $message = trans('messages.errors.general');
+        }
+
+        return [
+            'status' => $status,
+            'message' => $message,
+        ];
     }
 }

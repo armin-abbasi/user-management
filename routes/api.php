@@ -14,7 +14,7 @@
 
 Route::group(['prefix' => 'v1'], function () {
 
-    Route::group(['prefix' => 'users'], function () {
+    Route::group(['prefix' => 'users', 'namespace' => 'User'], function () {
         // Authentication routes
         Route::post('/login', 'AuthController@login');
         Route::get('/logout', 'AuthController@logout');
@@ -23,9 +23,9 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'admins', 'namespace' => 'Admin', 'middleware' => 'isAdmin'], function () {
         // User management routes
-        Route::post('/users', 'UserController@createUser');
-        Route::get('/users', 'UserController@listUsers');
-        Route::delete('/users/{user}', 'UserController@deleteUser');
+        Route::post('/users', 'UserController@create');
+        Route::get('/users', 'UserController@index');
+        Route::delete('/users/{user}', 'UserController@delete');
 
         // Group management routes
         Route::post('/groups', 'GroupController@createGroup');
