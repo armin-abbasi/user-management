@@ -79,7 +79,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof NotFoundHttpException) {
             $status = 404;
             $message = trans('messages.errors.not_found');
-        } elseif ($exception instanceof UnAuthenticatedUser) {
+        } elseif ($exception instanceof UnAuthenticatedUserException) {
             $status = 401;
             $code = -3;
             $message = $exception->getMessage();

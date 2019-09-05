@@ -13,6 +13,7 @@ return [
         'created' => 'Group created successfully!',
         'deleted' => 'Group deleted successfully!',
         'not_found' => 'Group does not exists',
+        'not_empty' => 'Group is not empty',
     ],
     'errors' => [
         'general' => 'Unexpected error happened.',

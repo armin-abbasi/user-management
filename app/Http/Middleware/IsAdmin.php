@@ -17,8 +17,8 @@ class IsAdmin
     {
         if (! $request->user()->authorizeRoles('admin')) {
             return response([
-                'responseCode' => -3,
-                'responseMessage' => 'You must be an admin to continue.',
+                'code' => -3,
+                'message' => 'You must be an admin to continue.',
                 'data' => null,
             ], 403);
         }

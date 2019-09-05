@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\UnAuthenticatedUser;
+use App\Exceptions\UnAuthenticatedUserException;
 use Closure;
 
 class ApiAuthenticate
@@ -13,12 +13,12 @@ class ApiAuthenticate
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
      * @return mixed
-     * @throws UnAuthenticatedUser
+     * @throws UnAuthenticatedUserException
      */
     public function handle($request, Closure $next)
     {
         if (! $request->user()) {
-            throw new UnAuthenticatedUser(trans('messages.users.not_authenticated'), -3);
+            throw new UnAuthenticatedUserException(trans('messages.users.not_authenticated'), -3);
         }
 
         return $next($request);

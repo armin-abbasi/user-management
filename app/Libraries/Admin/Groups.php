@@ -4,6 +4,7 @@
 namespace App\Libraries\Admin;
 
 
+use App\Exceptions\GroupIsNotEmptyException;
 use App\Models\Group;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
@@ -21,9 +22,16 @@ class Groups
     /**
      * @param $id
      * @return int
+     * @throws GroupIsNotEmptyException
      */
     public function delete($id)
     {
+        $group = Group::find($id);
+
+        if ($group->users()->exists()) {
+            throw new GroupIsNotEmptyException(trans('messages.groups.not_empty'));
+        }
+
         if ($result = Group::destroy($id)) {
             return $result;
         }

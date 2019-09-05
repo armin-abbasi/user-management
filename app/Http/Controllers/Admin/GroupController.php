@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\GroupIsNotEmptyException;
 use App\Http\Requests\CreateGroupRequest;
 use App\Libraries\Admin\Groups;
 use App\Http\Controllers\Controller;
@@ -38,7 +39,11 @@ class GroupController extends Controller
      */
     public function delete($id)
     {
-        $this->service->delete($id);
+        try {
+            $this->service->delete($id);
+        } catch (GroupIsNotEmptyException $e) {
+            return (new Response(-1, $e->getMessage(), null))->toJson();
+        }
 
         return (new Response(0, trans('messages.groups.deleted'), null))->toJson();
     }

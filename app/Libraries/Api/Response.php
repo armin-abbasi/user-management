@@ -26,7 +26,7 @@ class Response
 
     /**
      * Response constructor.
-     * @param integer $code
+     * @param int $code
      * @param string $message
      * @param mixed $data
      * @param int $statusCode
@@ -46,8 +46,8 @@ class Response
     public function toJson()
     {
         return response([
-            'responseCode' => $this->code,
-            'responseMessage' => $this->message,
+            'code' => $this->code,
+            'message' => $this->message,
             'data' => $this->data,
         ], $this->statusCode);
     }
