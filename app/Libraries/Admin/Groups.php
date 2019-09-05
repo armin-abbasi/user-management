@@ -38,8 +38,12 @@ class Groups
     {
         $group = Group::find($id);
 
+        if (!$group) {
+            throw new NotFoundResourceException(trans('messages.groups.not_found'));
+        }
+
         if ($group->users()->exists()) {
-            throw new GroupIsNotEmptyException(trans('messages.groups.not_empty'));
+            throw new GroupIsNotEmptyException(trans('messages.groups.not_empty'), -5);
         }
 
         if ($result = Group::destroy($id)) {
@@ -59,16 +63,16 @@ class Groups
     {
         $group = Group::find($id);
 
-        if (! $group) {
+        if (!$group) {
             throw new NotFoundResourceException(trans('messages.groups.not_found'));
         }
 
-        if (! User::find($userId)) {
+        if (!User::find($userId)) {
             throw new NotFoundResourceException(trans('messages.users.not_found'));
         }
 
         if ($group->users()->where('user_id', $userId)->first()) {
-            throw new UserAlreadyAttachedException(trans('messages.groups.already_attached'));
+            throw new UserAlreadyAttachedException(trans('messages.groups.already_attached'), -4);
         }
 
         return $group->users()->attach($userId);

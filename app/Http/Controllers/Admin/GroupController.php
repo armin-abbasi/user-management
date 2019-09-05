@@ -57,7 +57,7 @@ class GroupController extends Controller
         try {
             $this->service->delete($id);
         } catch (GroupIsNotEmptyException $e) {
-            return (new Response(-1, $e->getMessage(), null))->toJson();
+            return (new Response($e->getCode(), $e->getMessage(), null))->toJson();
         }
 
         return (new Response(0, trans('messages.groups.deleted'), null))->toJson();
@@ -73,7 +73,7 @@ class GroupController extends Controller
         try {
             $result = $this->service->attach($id, $userId);
         } catch (UserAlreadyAttachedException $e) {
-            return (new Response(-4, $e->getMessage(), null))->toJson();
+            return (new Response($e->getCode(), $e->getMessage(), null))->toJson();
         }
 
         return (new Response(0, trans('messages.groups.attached'), $result))->toJson();
