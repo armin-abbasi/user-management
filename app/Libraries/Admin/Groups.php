@@ -77,4 +77,24 @@ class Groups
 
         return $group->users()->attach($userId);
     }
+
+    /**
+     * @param $id
+     * @param $userId
+     * @return mixed
+     */
+    public function detach($id, $userId)
+    {
+        $group = Group::find($id);
+
+        if (!$group) {
+            throw new NotFoundResourceException(trans('messages.groups.not_found'));
+        }
+
+        if (!User::find($userId)) {
+            throw new NotFoundResourceException(trans('messages.users.not_found'));
+        }
+
+        return $group->users()->detach($userId);
+    }
 }

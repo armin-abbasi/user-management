@@ -15,6 +15,7 @@ return [
         'deleted' => 'Group deleted successfully!',
         'get' => 'Groups retrieved successfully!',
         'attached' => 'User successfully attached to the group!',
+        'detached' => 'User successfully detached from the group!',
         'already_attached' => 'User is already a member of this group.',
         'not_found' => 'Group does not exists',
         'not_empty' => 'Group is not empty',

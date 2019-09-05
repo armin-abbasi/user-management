@@ -78,4 +78,16 @@ class GroupController extends Controller
 
         return (new Response(0, trans('messages.groups.attached'), $result))->toJson();
     }
+
+    /**
+     * @param $id
+     * @param $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function detach($id, $userId)
+    {
+        $result = $this->service->detach($id, $userId);
+
+        return (new Response(0, trans('messages.groups.detached'), $result))->toJson();
+    }
 }
