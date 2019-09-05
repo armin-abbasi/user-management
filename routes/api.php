@@ -28,11 +28,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('/users/{user}', 'UserController@delete');
 
         // Group management routes
-        Route::post('/groups', 'GroupController@createGroup');
-        Route::get('/groups', 'GroupController@listGroups');
+        Route::post('/groups', 'GroupController@create');
+        Route::get('/groups', 'GroupController@index');
         Route::get('/groups/{group}/user/{user}', 'GroupController@attachUser');
         Route::delete('/groups/{group}/user/{user}', 'GroupController@detachUser');
-        Route::delete('/groups/{group}', 'GroupController@deleteGroup');
+        Route::delete('/groups/{group}', 'GroupController@delete');
     });
 
 });

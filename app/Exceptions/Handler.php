@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Libraries\Api\Response;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
@@ -55,7 +56,13 @@ class Handler extends ExceptionHandler
 
         $errorInfo = $this->getInfo($exception);
 
-        return (new Response(-1, $errorInfo['message'], $data, $errorInfo['status']))->toJson();
+        // Return particular error code or -1 if not given.
+        $code = $errorInfo['code'] ?: -1;
+
+        // Return error messages in case of Validation Exception.
+        $data = $errorInfo['data'] ?: $data;
+
+        return (new Response($code, $errorInfo['message'], $data, $errorInfo['status']))->toJson();
     }
 
     /**
@@ -66,11 +73,15 @@ class Handler extends ExceptionHandler
      */
     private function getInfo(Exception $exception)
     {
+        $code = null;
+        $data = null;
+
         if ($exception instanceof NotFoundHttpException) {
             $status = 404;
             $message = trans('messages.errors.not_found');
         } elseif ($exception instanceof UnAuthenticatedUser) {
             $status = 401;
+            $code = -3;
             $message = $exception->getMessage();
         } elseif ($exception->getCode() == 23000) {
             $status = 400;
@@ -78,6 +89,11 @@ class Handler extends ExceptionHandler
         } elseif ($exception instanceof NotFoundResourceException) {
             $status = 404;
             $message = $exception->getMessage();
+        } elseif ($exception instanceof ValidationException) {
+            $status = 420;
+            $code = -2;
+            $data = $exception->errors();
+            $message = trans('messages.errors.invalid_input');
         } else {
             $status = 500;
             $message = trans('messages.errors.general');
@@ -86,6 +102,8 @@ class Handler extends ExceptionHandler
         return [
             'status' => $status,
             'message' => $message,
+            'code' => $code,
+            'data' => $data,
         ];
     }
 }

@@ -16,10 +16,11 @@ class UserController extends Controller
 
     /**
      * UserController constructor.
+     * @param Users $userService
      */
-    public function __construct()
+    public function __construct(Users $userService)
     {
-        $this->service = new Users();
+        $this->service = $userService;
     }
 
     /**
