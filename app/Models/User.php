@@ -73,6 +73,37 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+         * @param $roles
+         * @return bool
+         */
+        public function authorizeRoles($roles)
+        {
+            if (is_array($roles)) {
+                return $this->hasAnyRole($roles);
+            }
+
+            return $this->hasRole($roles);
+        }
+
+        /**
+         * @param $roles
+         * @return bool
+         */
+        public function hasAnyRole($roles)
+        {
+            return null !== $this->roles()->whereIn('name', $roles)->first();
+        }
+
+        /**
+         * @param $role
+         * @return bool
+         */
+        public function hasRole($role)
+        {
+            return null !== $this->roles()->where('name', $role)->first();
+        }
+
+    /**
      * @return mixed
      */
     public function getJWTIdentifier()

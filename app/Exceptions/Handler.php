@@ -33,6 +33,7 @@ class Handler extends ExceptionHandler
      *
      * @param \Exception $exception
      * @return void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -49,7 +50,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         // Display exception info if in debug mode.
-        $data = env('APP_DEBUG', false) == true ? $exception : null;
+        $data = env('APP_DEBUG', false) == true ? (string)$exception : null;
 
         $errorInfo = $this->getInfo($exception);
 
