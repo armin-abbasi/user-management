@@ -5,6 +5,7 @@ return [
     'users' => [
         'created' => 'User created successfully!',
         'deleted' => 'User deleted successfully!',
+        'logged_in' => 'You have logged in successfully!',
         'get' => 'Users retrieved successfully!',
         'exists' => 'User {email} already exists!',
         'not_found' => 'User does not exists',

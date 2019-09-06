@@ -35,13 +35,13 @@ class AuthController extends Controller
 
     /**
      * @param CredentialRequest $request
-     * @return JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function login(CredentialRequest $request)
     {
         $credentials = $request->only(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => trans('messages.errors.auth')], 401);
         }
 
@@ -60,14 +60,14 @@ class AuthController extends Controller
 
     /**
      * @param $token
-     * @return JsonResponse
+     * @return \Illuminate\Http\Response
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
+        return (new Response(0, trans('messages.users.logged_in'), [
             'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * config('auth.passwords.users.expire', 60),
-        ]);
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * config('auth.passwords.users.expire', 60),
+        ], 200))->toJson();
     }
 }
