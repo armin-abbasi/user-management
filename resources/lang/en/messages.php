@@ -28,4 +28,5 @@ return [
         'resource_exists' => 'You\'re trying to create a resource that already exists.',
         'invalid_input' => 'Invalid input given.',
     ]
+
 ];
