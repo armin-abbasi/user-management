@@ -43,9 +43,9 @@ class GroupController extends Controller
     {
         $inputs = $request->only(['name', 'description']);
 
-        $user = $this->service->create($inputs);
+        $group = $this->service->create($inputs);
 
-        return (new Response(0, trans('messages.groups.created'), $user))->toJson();
+        return (new Response(0, trans('messages.groups.created'), $group))->toJson();
     }
 
     /**
