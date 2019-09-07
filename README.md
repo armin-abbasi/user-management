@@ -67,7 +67,7 @@ A response code designates that a request was successful or not and it is follow
 |   -1  | General Error   |
 |   -2  | Invalid Input   |
 |   -3  | Invalid Credentials |
-|   -4  | User Already A Member |
+|   -4  | User Is a Member, Already |
 |   -5  | Group Is Not Empty  |
 
 #### Message
@@ -178,7 +178,7 @@ Method : `GET`
 
 Route : `/api/v1/admins/groups/{group-id}/user/{user-id}`
 
-Method : `GET`
+Method : `POST`
 
 <hr>
 

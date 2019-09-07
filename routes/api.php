@@ -30,7 +30,7 @@ Route::group(['prefix' => 'v1'], function () {
         // Group management routes
         Route::post('/groups', 'GroupController@create');
         Route::get('/groups', 'GroupController@index');
-        Route::get('/groups/{group}/user/{user}', 'GroupController@attach');
+        Route::post('/groups/{group}/user/{user}', 'GroupController@attach');
         Route::delete('/groups/{group}/user/{user}', 'GroupController@detach');
         Route::delete('/groups/{group}', 'GroupController@delete');
     });
