@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "724a65c2-daeb-4f60-8781-777af8bdabbd",
+		"_postman_id": "af8aefbc-6473-4185-b0dd-c2029e7c99d6",
 		"name": "User Management",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -307,6 +307,47 @@
 										"3",
 										"user",
 										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Groups Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{HOST}}/api/v1/admins/groups",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admins",
+										"groups"
 									]
 								}
 							},
