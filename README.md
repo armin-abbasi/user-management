@@ -2,7 +2,7 @@
 
 ## Initialize
 * Run `composer install`
-* Then setup your environment via `.env` file
+* Then setup your environment via `.env` file and run `php artisan key:generate`
 * Run `php artisan migrate` to create database tables
 * Run `php artisan db:seed` so you have two types of users in database : 
 
