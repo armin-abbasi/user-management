@@ -56,7 +56,7 @@ All the response objects consist of these three fields :
 * message 
 * data
 
-#### code
+#### Code
 A response code designates that a request was successful or not and it is following the convention below.
 
 | Code | Status    |
@@ -68,12 +68,12 @@ A response code designates that a request was successful or not and it is follow
 |   -4  | User Already A Member |
 |   -5  | Group Is Not Empty  |
 
-#### message
+#### Message
 Verbose information about the request status.
 
 for example : `Group created successfully!`
 
-#### data
+#### Data
 Consists all the necessary data of the relevant task.
 
 for example : 
