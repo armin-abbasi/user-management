@@ -64,11 +64,11 @@ class UsersTest extends TestCase
             'password' => $this->faker->randomLetter,
         ];
 
-        $result = $this->service->create($input);
+        $createResult = $this->service->create($input);
 
-        $this->assertInstanceOf($this->model, $result);
+        $this->assertInstanceOf($this->model, $createResult);
 
-        $this->assertSame($input['name'], $result->name);
+        $this->assertSame($input['name'], $createResult->name);
 
         $this->assertDatabaseHas($this->databaseTable, ['email' => $input['email']]);
     }
