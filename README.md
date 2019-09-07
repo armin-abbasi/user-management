@@ -5,10 +5,13 @@
 * Then setup your environment via `.env` file
 * Run `php artisan migrate` to create database tables
 * Run `php artisan db:seed` so you have two types of users in database : 
-    ####Admin
+
+    ##### Admin
+    
         email: admin@local
         password: abc
-    ####User
+    ##### User
+    
         email: regular1@local
         password: abc
         
@@ -53,7 +56,7 @@ All the response objects consist of these three fields :
 * message 
 * data
 
-####code
+#### code
 A response code designates that a request was successful or not and it is following the convention below.
 
 | Code | Status    |
@@ -65,12 +68,12 @@ A response code designates that a request was successful or not and it is follow
 |   -4  | User Already A Member |
 |   -5  | Group Is Not Empty  |
 
-####message
+#### message
 Verbose information about the request status.
 
 for example : `Group created successfully!`
 
-####data
+#### data
 Consists all the necessary data of the relevant task.
 
 for example : 
