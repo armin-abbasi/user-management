@@ -17,7 +17,9 @@
         
 * Run `php artisan jwt:secret` to have a fresh secret key (not necessary)
 * You can also run test units by typing `composer test`
-> There is a directory named `documents` in project files which includes all the demanded files for this test such as (database diagram, domain model diagram, Postman collection json file).
+> There is a directory named `documents` in project files which includes all the mentioned diagrams for this test :
+
+> Such as (database diagram, domain model diagram, postman collection json file).
 
 <hr>
 
@@ -74,7 +76,7 @@ Verbose information about the request status.
 for example : `Group created successfully!`
 
 #### Data
-Consists all the necessary data of the relevant task.
+Contains all the necessary data about the relevant request.
 
 for example : 
 
