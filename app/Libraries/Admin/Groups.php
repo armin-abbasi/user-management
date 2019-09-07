@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Libraries\Admin;
-
 
 use App\Exceptions\GroupIsNotEmptyException;
 use App\Exceptions\UserAlreadyAttachedException;
