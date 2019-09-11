@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreateUserRequest;
-use App\Libraries\Admin\Users;
+use App\Libraries\Admin\Services\Users;
 use App\Libraries\Api\Response;
 use App\Http\Controllers\Controller;
 

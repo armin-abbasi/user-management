@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries\Admin;
+namespace App\Libraries\Admin\Services;
 
 use App\Models\User;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;

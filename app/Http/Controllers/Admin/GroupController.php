@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\GroupIsNotEmptyException;
 use App\Exceptions\UserAlreadyAttachedException;
 use App\Http\Requests\CreateGroupRequest;
-use App\Libraries\Admin\Groups;
+use App\Libraries\Admin\Services\Groups;
 use App\Http\Controllers\Controller;
 use App\Libraries\Api\Response;
 
