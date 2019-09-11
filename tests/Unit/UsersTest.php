@@ -4,7 +4,7 @@
 namespace Tests\Unit;
 
 
-use App\Libraries\Admin\Users;
+use App\Libraries\Admin\Facades\UserService;
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,8 +15,6 @@ class UsersTest extends TestCase
     use DatabaseTransactions;
 
     public $model = User::class;
-
-    public $service;
 
     public $faker;
 
@@ -31,8 +29,6 @@ class UsersTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-
-        $this->service = new Users();
 
         $this->faker = Factory::create();
     }
@@ -50,7 +46,7 @@ class UsersTest extends TestCase
             'password' => $this->faker->randomLetter,
         ];
 
-        return $this->service->create($input);
+        return UserService::create($input);
     }
 
     /**
@@ -64,7 +60,7 @@ class UsersTest extends TestCase
             'password' => $this->faker->randomLetter,
         ];
 
-        $createResult = $this->service->create($input);
+        $createResult = UserService::create($input);
 
         $this->assertInstanceOf($this->model, $createResult);
 
@@ -80,7 +76,7 @@ class UsersTest extends TestCase
     {
         $this->createUser();
 
-        $getResult = $this->service->getAll();
+        $getResult = UserService::getAll();
 
         $getResult = $getResult->toArray();
 
@@ -94,7 +90,7 @@ class UsersTest extends TestCase
     {
         $mockUser = $this->createUser();
 
-        $this->assertSame($this->service->delete($mockUser->id), 1);
+        $this->assertSame(UserService::delete($mockUser->id), 1);
 
         $this->assertDatabaseMissing($this->databaseTable, ['id' => $mockUser->id]);
     }

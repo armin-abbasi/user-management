@@ -6,8 +6,8 @@ namespace Tests\Unit;
 
 use App\Exceptions\GroupIsNotEmptyException;
 use App\Exceptions\UserAlreadyAttachedException;
-use App\Libraries\Admin\Groups;
-use App\Libraries\Admin\Users;
+use App\Libraries\Admin\Facades\GroupService;
+use App\Libraries\Admin\Facades\UserService;
 use App\Models\Group;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -18,8 +18,6 @@ class GroupsTest extends TestCase
     use DatabaseTransactions;
 
     public $model = Group::class;
-
-    public $service;
 
     public $faker;
 
@@ -37,8 +35,6 @@ class GroupsTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->service = new Groups();
-
         $this->faker = Factory::create();
     }
 
@@ -54,7 +50,7 @@ class GroupsTest extends TestCase
             'description' => $this->faker->realText(50),
         ];
 
-        return $this->service->create($input);
+        return GroupService::create($input);
     }
 
     /**
@@ -64,15 +60,13 @@ class GroupsTest extends TestCase
      */
     private function createUser()
     {
-        $userService = new Users();
-
         $input = [
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => $this->faker->randomLetter,
         ];
 
-        return $userService->create($input);
+        return UserService::create($input);
     }
 
     /**
@@ -85,7 +79,7 @@ class GroupsTest extends TestCase
             'description' => $this->faker->realText(50),
         ];
 
-        $createResult = $this->service->create($input);
+        $createResult = GroupService::create($input);
 
         $this->assertInstanceOf($this->model, $createResult);
 
@@ -101,7 +95,7 @@ class GroupsTest extends TestCase
     {
         $this->createGroup();
 
-        $getResult = $this->service->getAll();
+        $getResult = GroupService::getAll();
 
         $getResult = $getResult->toArray();
 
@@ -118,7 +112,7 @@ class GroupsTest extends TestCase
         $mockGroup = $this->createGroup();
 
         try {
-            $this->assertSame($this->service->delete($mockGroup->id), 1);
+            $this->assertSame(GroupService::delete($mockGroup->id), 1);
             $this->assertDatabaseMissing($this->databaseTable, ['id' => $mockGroup->id]);
         } catch (\Exception $e) {
             throw $e;
@@ -135,10 +129,15 @@ class GroupsTest extends TestCase
 
         try {
             // First attach a user to group.
-            $this->service->attach($mockGroup->id, $mockUser->id);
-            $this->assertDatabaseHas($this->databasePivotTable, ['user_id' => $mockUser->id, 'group_id' => $mockGroup->id]);
+            GroupService::attach($mockGroup->id, $mockUser->id);
+            $this->assertDatabaseHas($this->databasePivotTable,
+                [
+                    'user_id' => $mockUser->id,
+                    'group_id' => $mockGroup->id
+                ]
+            );
             // Now trying to delete the group.
-            $this->service->delete($mockGroup->id);
+            GroupService::delete($mockGroup->id);
         } catch (\Exception $e) {
             $this->assertInstanceOf(GroupIsNotEmptyException::class, $e);
         }
@@ -155,7 +154,7 @@ class GroupsTest extends TestCase
         $mockUser = $this->createUser();
 
         try {
-            $this->service->attach($mockGroup->id, $mockUser->id);
+            GroupService::attach($mockGroup->id, $mockUser->id);
             $this->assertDatabaseHas($this->databasePivotTable, ['group_id' => $mockGroup->id, 'user_id' => $mockUser->id]);
         } catch (\Exception $e) {
             throw $e;
@@ -171,8 +170,8 @@ class GroupsTest extends TestCase
         $mockUser = $this->createUser();
 
         try {
-            $this->service->attach($mockGroup->id, $mockUser->id);
-            $this->service->attach($mockGroup->id, $mockUser->id);
+            GroupService::attach($mockGroup->id, $mockUser->id);
+            GroupService::attach($mockGroup->id, $mockUser->id);
         } catch (\Exception $e) {
             $this->assertInstanceOf(UserAlreadyAttachedException::class, $e);
         }
@@ -190,10 +189,10 @@ class GroupsTest extends TestCase
 
         try {
             // Attaching mock data.
-            $this->service->attach($mockGroup->id, $mockUser->id);
+            GroupService::attach($mockGroup->id, $mockUser->id);
             $this->assertDatabaseHas($this->databasePivotTable, ['group_id' => $mockGroup->id, 'user_id' => $mockUser->id]);
             // Detaching mock data.
-            $this->service->detach($mockGroup->id, $mockUser->id);
+            GroupService::detach($mockGroup->id, $mockUser->id);
             $this->assertDatabaseMissing($this->databasePivotTable, ['group_id' => $mockGroup->id, 'user_id' => $mockUser->id]);
         } catch (\Exception $e) {
             throw $e;
