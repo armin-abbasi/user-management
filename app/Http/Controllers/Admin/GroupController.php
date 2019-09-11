@@ -5,32 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\GroupIsNotEmptyException;
 use App\Exceptions\UserAlreadyAttachedException;
 use App\Http\Requests\CreateGroupRequest;
-use App\Libraries\Admin\Services\Groups;
+use App\Libraries\Admin\Facades\GroupService;
 use App\Http\Controllers\Controller;
 use App\Libraries\Api\Response;
 
 class GroupController extends Controller
 {
     /**
-     * @var Groups $service
-     */
-    public $service;
-
-    /**
-     * GroupController constructor.
-     * @param Groups $groupsService
-     */
-    public function __construct(Groups $groupsService)
-    {
-        $this->service = $groupsService;
-    }
-
-    /**
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $groups = $this->service->getAll();
+        $groups = GroupService::getAll();
 
         return (new Response(0, trans('messages.groups.get'), $groups))->toJson();
     }
@@ -43,7 +29,7 @@ class GroupController extends Controller
     {
         $inputs = $request->only(['name', 'description']);
 
-        $group = $this->service->create($inputs);
+        $group = GroupService::create($inputs);
 
         return (new Response(0, trans('messages.groups.created'), $group))->toJson();
     }
@@ -55,7 +41,7 @@ class GroupController extends Controller
     public function delete($id)
     {
         try {
-            $this->service->delete($id);
+            GroupService::delete($id);
         } catch (GroupIsNotEmptyException $e) {
             return (new Response($e->getCode(), $e->getMessage(), null))->toJson();
         }
@@ -71,7 +57,7 @@ class GroupController extends Controller
     public function attach($id, $userId)
     {
         try {
-            $result = $this->service->attach($id, $userId);
+            $result = GroupService::attach($id, $userId);
         } catch (UserAlreadyAttachedException $e) {
             return (new Response($e->getCode(), $e->getMessage(), null))->toJson();
         }
@@ -86,7 +72,7 @@ class GroupController extends Controller
      */
     public function detach($id, $userId)
     {
-        $result = $this->service->detach($id, $userId);
+        $result = GroupService::detach($id, $userId);
 
         return (new Response(0, trans('messages.groups.detached'), $result))->toJson();
     }
