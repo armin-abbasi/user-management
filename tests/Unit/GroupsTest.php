@@ -112,7 +112,7 @@ class GroupsTest extends TestCase
         $mockGroup = $this->createGroup();
 
         try {
-            $this->assertSame(GroupService::delete($mockGroup->id), 1);
+            $this->assertSame(GroupService::delete($mockGroup->id), true);
             $this->assertDatabaseMissing($this->databaseTable, ['id' => $mockGroup->id]);
         } catch (\Exception $e) {
             throw $e;

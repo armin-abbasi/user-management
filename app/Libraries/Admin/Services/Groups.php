@@ -22,7 +22,7 @@ class Groups
      * @param $input
      * @return mixed
      */
-    public function create($input)
+    public function create(array $input)
     {
         return Group::create($input);
     }
@@ -32,7 +32,7 @@ class Groups
      * @return int
      * @throws GroupIsNotEmptyException
      */
-    public function delete($id)
+    public function delete(int $id): bool
     {
         $group = Group::find($id);
 
@@ -57,7 +57,7 @@ class Groups
      * @return mixed
      * @throws UserAlreadyAttachedException|NotFoundResourceException
      */
-    public function attach($id, $userId)
+    public function attach(int $id, int $userId)
     {
         $group = Group::find($id);
 
@@ -81,7 +81,7 @@ class Groups
      * @param $userId
      * @return mixed
      */
-    public function detach($id, $userId)
+    public function detach(int $id, int $userId)
     {
         $group = Group::find($id);
 
