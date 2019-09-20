@@ -90,7 +90,7 @@ class UsersTest extends TestCase
     {
         $mockUser = $this->createUser();
 
-        $this->assertSame(UserService::delete($mockUser->id), 1);
+        $this->assertSame(UserService::delete($mockUser->id), true);
 
         $this->assertDatabaseMissing($this->databaseTable, ['id' => $mockUser->id]);
     }

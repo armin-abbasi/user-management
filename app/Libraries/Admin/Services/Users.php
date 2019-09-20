@@ -19,16 +19,16 @@ class Users
      * @param $input
      * @return mixed
      */
-    public function create($input)
+    public function create(array $input)
     {
         return User::create($input);
     }
 
     /**
-     * @param $id
-     * @return int
+     * @param int $id
+     * @return bool
      */
-    public function delete($id)
+    public function delete(int $id): bool
     {
         if ($result = User::destroy($id)) {
             return $result;
