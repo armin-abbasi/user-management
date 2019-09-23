@@ -18,6 +18,7 @@ services:
   db:
     container_name: db
     image: "mysql:5.7"
+    restart: "always"
     environment:
       - MYSQL_DATABASE=user_management
       - MYSQL_ROOT_PASSWORD=secret
