@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    container_name: app
+    build: .
+    ports:
+      - "8009:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env-docker
+    working_dir: /app
+    command: bash -c 'php artisan migrate && php artisan serve --host 0.0.0.0'
+    depends_on:
+      - db
+    links:
+      - db
+  db:
+    container_name: db
+    image: "mysql:5.7"
+    environment:
+      - MYSQL_DATABASE=user_management
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=root
+    ports:
+      - "33062:3306"
