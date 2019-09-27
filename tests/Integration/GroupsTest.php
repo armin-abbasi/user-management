@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Unit;
+namespace Tests\Integration;
 
 
 use App\Exceptions\GroupIsNotEmptyException;
