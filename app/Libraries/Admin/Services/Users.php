@@ -7,12 +7,14 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class Users
 {
+    const PAGE_COUNT = 5;
+
     /**
      * @return mixed
      */
     public function getAll()
     {
-        return User::paginate(5);
+        return User::paginate(self::PAGE_COUNT);
     }
 
     /**

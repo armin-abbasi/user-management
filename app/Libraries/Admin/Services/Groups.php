@@ -10,12 +10,14 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class Groups
 {
+    const PAGE_COUNT = 5;
+
     /**
      * @return mixed
      */
     public function getAll()
     {
-        return Group::paginate(5);
+        return Group::paginate(self::PAGE_COUNT);
     }
 
     /**
